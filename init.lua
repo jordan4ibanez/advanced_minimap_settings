@@ -5,20 +5,12 @@
 local mod_storage = minetest.get_mod_storage()
 
 
-print("IT'S HEREEEERERSER")
-print(mod_storage:get_int("show"))
+
 
 if mod_storage:get_string("show") == "" then
-	mod_storage:set_string("show", 1)
+	mod_storage:set_string("show", "true")
 end
 
-if mod_storage:get_int("set_mode") == 0 then
-	mod_storage:set_int("set_mode", 1)
-end
-
-if mod_storage:get_int("set_shape") == 0 then
-	mod_storage:set_int("set_shape", 0)
-end
 
 
 
@@ -26,9 +18,11 @@ end
 minetest.register_on_connect(function()
 	
 	minetest.after(1, function()
-		minetest.ui.minimap:show()
-		minetest.ui.minimap:set_mode(1)
-		minetest.ui.minimap:set_shape(0)
+		if mod_storage:get_string("show") == "true" then
+			minetest.ui.minimap:show()
+			minetest.ui.minimap:set_mode(mod_storage:get_int("set_mode"))
+			minetest.ui.minimap:set_shape(mod_storage:get_int("set_shape"))
+		end
 		show_minimap_form_spec()
 	end)
 	
@@ -85,10 +79,10 @@ minetest.register_on_formspec_input(function(formname, fields)
 			print(fields.Map_Visible)
 			if fields.Map_Visible == "true" then
 				minetest.ui.minimap:show()
-				mod_storage:set_string("show", 1)
+				mod_storage:set_string("show", "true")
 			elseif fields.Map_Visible == "false" then
 				minetest.ui.minimap:hide()
-				mod_storage:set_string("show", 0)
+				mod_storage:set_string("show", "false")
 			end
 		end
 		if fields.Map_Mode then
@@ -124,4 +118,20 @@ minetest.register_on_formspec_input(function(formname, fields)
 	
 	
 	end
+end)
+
+
+---
+
+local localplayer
+minetest.register_on_connect(function()
+        localplayer = minetest.localplayer
+end)
+
+minetest.register_globalstep(function(dtime)
+	 
+	if localplayer then
+		--print(localplayer:get_key_pressed())
+	end
+
 end)
