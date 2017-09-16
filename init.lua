@@ -4,9 +4,22 @@
 ----LOADING
 local mod_storage = minetest.get_mod_storage()
 
-if mod_storage:get_string("note") == "" then
-	mod_storage:set_string("note", "Write down your notice here")
+
+print("IT'S HEREEEERERSER")
+print(mod_storage:get_int("show"))
+
+if mod_storage:get_string("show") == "" then
+	mod_storage:set_string("show", 1)
 end
+
+if mod_storage:get_int("set_mode") == 0 then
+	mod_storage:set_int("set_mode", 1)
+end
+
+if mod_storage:get_int("set_shape") == 0 then
+	mod_storage:set_int("set_shape", 0)
+end
+
 
 
 --avoid opengl errors by delay
@@ -48,28 +61,42 @@ function show_minimap_form_spec()
 		
 		
 		--visible setting
-		"label[0.1,1.1;Map Visible]" ..
+		"label[0.1,1.1;Map_Visible]" ..
 		"dropdown[2.1,1;1.25;Map_Visible;true,false;1]"..
 		
 		--mode setting- surface & radar
-		"label[0.1,2.1;Map Mode]" ..
+		"label[0.1,2.1;Map_Mode]" ..
 		"dropdown[2.1,2;2.25;Map_mode;Surface X1,Surface X2,Surface X4,Radar X1,Radar X2,Radar X4;1]"..
 		
 		--map shape
-		"label[0.1,3.1;Map Shape]" ..
+		"label[0.1,3.1;Map_Shape]" ..
 		"dropdown[2.1,3;1.75;Map Shape;Square,Round;1]"
 		
 		
-		--"vertlabel[-0.2,0.4;PARAMETERS]" ..
-		
-		--"textlist[0.4,1;5,1.5;rec_info;]" ..
-		
-		--"field[0.4,3.1;2.4,1;rec_timer;Timing in seconds:;5]" ..
-		
-		--"field[3.08,3.1;2.4,1;rec_fps;Framerate:;10]" ..
-		
-		--"button_exit[0.1,3.5;2.43,1;rec_btn;Start]" ..
-		
-		--"button[2.8,3.5;2.41,1;stop_btn;Stop]"
+		--"button[3.75,5.5;2.5,1;Save_And_Apply;Save & Apply]"
 	)
 end
+
+--recieve fields
+minetest.register_on_formspec_input(function(formname, fields)
+	if formname == "hud_settings" then
+		if fields.Map_Visible then
+			print(fields.Map_Visible)
+			if fields.Map_Visible == "true" then
+				minetest.ui.minimap:show()
+				mod_storage:set_string("show", 1)
+			elseif fields.Map_Visible == "false" then
+				minetest.ui.minimap:hide()
+				mod_storage:set_string("show", 0)
+			end
+		end
+		if fields.Map_Mode then
+			print("test")
+		end
+		if fields.Map_Shape then
+			print("test")
+		end
+	
+	
+	end
+end)
