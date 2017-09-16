@@ -66,11 +66,11 @@ function show_minimap_form_spec()
 		
 		--mode setting- surface & radar
 		"label[0.1,2.1;Map_Mode]" ..
-		"dropdown[2.1,2;2.25;Map_mode;Surface X1,Surface X2,Surface X4,Radar X1,Radar X2,Radar X4;1]"..
+		"dropdown[2.1,2;2.25;Map_Mode;Surface X1,Surface X2,Surface X4,Radar X1,Radar X2,Radar X4;1]"..
 		
 		--map shape
 		"label[0.1,3.1;Map_Shape]" ..
-		"dropdown[2.1,3;1.75;Map Shape;Square,Round;1]"
+		"dropdown[2.1,3;1.75;Map_Shape;Square,Round;1]"
 		
 		
 		--"button[3.75,5.5;2.5,1;Save_And_Apply;Save & Apply]"
@@ -79,7 +79,8 @@ end
 
 --recieve fields
 minetest.register_on_formspec_input(function(formname, fields)
-	if formname == "hud_settings" then
+	if formname == "hud_settings" and not fields.quit then
+	
 		if fields.Map_Visible then
 			print(fields.Map_Visible)
 			if fields.Map_Visible == "true" then
@@ -91,10 +92,34 @@ minetest.register_on_formspec_input(function(formname, fields)
 			end
 		end
 		if fields.Map_Mode then
-			print("test")
+			if fields.Map_Mode == "Surface X1" then
+				mod_storage:set_int("set_mode", 1)
+				minetest.ui.minimap:set_mode(1)
+			elseif fields.Map_Mode == "Surface X2" then
+				mod_storage:set_int("set_mode", 2)
+				minetest.ui.minimap:set_mode(2)
+			elseif fields.Map_Mode == "Surface X4" then
+				mod_storage:set_int("set_mode", 3)
+				minetest.ui.minimap:set_mode(3)
+			elseif fields.Map_Mode == "Radar X1" then
+				mod_storage:set_int("set_mode", 4)
+				minetest.ui.minimap:set_mode(4)
+			elseif fields.Map_Mode == "Radar X2" then
+				mod_storage:set_int("set_mode", 5)
+				minetest.ui.minimap:set_mode(5)
+			elseif fields.Map_Mode == "Radar X4" then
+				mod_storage:set_int("set_mode", 6)
+				minetest.ui.minimap:set_mode(6)
+			end
 		end
 		if fields.Map_Shape then
-			print("test")
+			if fields.Map_Shape == "Square" then
+				minetest.ui.minimap:set_shape(0)
+				mod_storage:set_int("set_shape", 0)
+			elseif fields.Map_Shape == "Round" then
+				minetest.ui.minimap:set_shape(1)
+				mod_storage:set_int("set_shape", 1)
+			end
 		end
 	
 	
