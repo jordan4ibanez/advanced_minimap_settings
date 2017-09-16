@@ -1,3 +1,5 @@
+--0 off 1-3 surface 4-6 radar
+
 
 ----LOADING
 local mod_storage = minetest.get_mod_storage()
@@ -12,7 +14,7 @@ minetest.register_on_connect(function()
 	
 	minetest.after(1, function()
 		minetest.ui.minimap:show()
-		minetest.ui.minimap:set_mode(3)
+		minetest.ui.minimap:set_mode(1)
 		minetest.ui.minimap:set_shape(0)
 		show_minimap_form_spec()
 	end)
@@ -45,8 +47,18 @@ function show_minimap_form_spec()
 		"label[0.6,0;Advanced Minimap Settings]" ..
 		
 		
+		--visible setting
 		"label[0.1,1.1;Map Visible]" ..
-		"dropdown[2.1,1;1.25;Visible;true,false;1]"
+		"dropdown[2.1,1;1.25;Map_Visible;true,false;1]"..
+		
+		--mode setting- surface & radar
+		"label[0.1,2.1;Map Mode]" ..
+		"dropdown[2.1,2;2.25;Map_mode;Surface X1,Surface X2,Surface X4,Radar X1,Radar X2,Radar X4;1]"..
+		
+		--map shape
+		"label[0.1,3.1;Map Shape]" ..
+		"dropdown[2.1,3;1.75;Map Shape;Square,Round;1]"
+		
 		
 		--"vertlabel[-0.2,0.4;PARAMETERS]" ..
 		
