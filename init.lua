@@ -23,7 +23,7 @@ minetest.register_on_connect(function()
 			minetest.ui.minimap:set_mode(mod_storage:get_int("set_mode"))
 			minetest.ui.minimap:set_shape(mod_storage:get_int("set_shape"))
 		end
-		show_minimap_form_spec()
+		--show_minimap_form_spec()
 	end)
 	
 end)
